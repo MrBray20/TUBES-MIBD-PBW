@@ -1,0 +1,87 @@
+header{
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: end;
+    background: rgb(44, 68, 129);
+    color: white;
+}
+.header p{
+    margin: 0;
+    padding: 0;
+    padding-right: 20px;
+}
+.header a{
+    color: white;
+    text-decoration: none;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+img {
+    height: 30px;
+    padding-right: 20px;
+}
+
+.sidenav {
+    margin-top: 60px;
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(31, 50, 100);
+    overflow-x: hidden;
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+.sidenav a {
+    padding: 20px 8px 6px 40px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #ffffff;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 250px; 
+    padding: 0px 10px;
+}
+.main p {
+    margin-left: 15px;
+    font-size: 28px;
+}
+table {
+	border: 1px solid rgb(0, 0, 0);
+	border-collapse: collapse;
+    font-size: 20px;
+    margin-left: 15px;
+}
+td, tr{
+	border: 1px solid rgb(0, 0, 0);
+	padding: 4px;
+    justify-content: center;
+    align-items: center;
+    
+}
+th {
+	padding: 4px;
+	border: 1px solid rgb(0, 0, 0);
+	text-align: center;
+	background: rgb(57, 88, 167);
+	color: white;
+}
+td a{
+    text-decoration: none;
+}
+input{
+    margin-top: 5px;
+    margin-left: 243px;
+}
