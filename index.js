@@ -1,20 +1,52 @@
 import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
+import crypto from 'crypto';
 
 const port = 8080;
-
 const app = express();
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.resolve('public')));
 
+const pool = mysql.createPool({
+    user:'root',
+    password:'',
+    database:'tubesmibdpbw',
+    host:'localhost',
+    connectionLimit:10
+});
+
+const dbConnect = () =>{
+    return new Promise((resolve,rejects)=>{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                rejects(err);
+            }
+            else{
+                resolve(conn);
+            }
+        })
+    })
+}
+
+const getuser = (conn,username,passs) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT username, password`)
+    })
+}
+
 app.get('/',async (req,res)=>{
     res.render('login');
 });
 
 app.post('/home',async (req,res)=>{
+    const{username ,password} = req.body
+
+    const hashpass = crypto.createHash('sha256').update(password).digest('base64')
+    console.log(hashpass)
+
     res.redirect('home');
 });
 
@@ -94,3 +126,8 @@ app.post('/addperioda',async (req,res)=>{
 app.listen(port,()=>{
     console.log('ready!');
 });
+
+
+var sec = 'admin123'
+var hash = crypto.createHash('sha256').update(sec).digest('base64')
+console.log(hash);
