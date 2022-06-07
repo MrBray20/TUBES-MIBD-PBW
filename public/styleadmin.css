@@ -110,28 +110,63 @@ input{
 a.a1{
     color: black;
     grid-area: cont1;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a2{
     color: black;
     grid-area: cont2;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a3{
     color: black;
     grid-area: cont3;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a4{
     color: black;
     grid-area: cont4;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a4{
     color: black;
     grid-area: cont4;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a5{
     color: black;
     grid-area: cont5;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
 a.a6{
     color: black;
     grid-area: cont6;
+    width: 150px;
+    height: 100px;
+    padding: 20px;
+    border: 18px inset #1C6EA4;
+    border-radius: 10px 10px 10px 10px;
 }
