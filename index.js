@@ -12,6 +12,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', [path.join(__dirname, 'views'), 
 path.join(__dirname, 'views/Admin'),
+path.join(__dirname, 'views/Warga'),
 path.join(__dirname, 'views/StafPenjualan')]);
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.resolve('public')));
@@ -156,6 +157,31 @@ app.get('/kecamatan',async (req,res)=>{
 });
 app.get('/kelurahan',async (req,res)=>{
     res.render('stafstatuspembayaran');
+});
+
+//Warga
+app.get('/',async (req,res)=>{
+    res.render('login');
+});
+app.get('/homewarga',async (req,res)=>{
+    res.render('homewarga');
+});
+app.post('/warga',async (req,res)=>{
+    res.redirect('warga');
+});
+
+app.get('/warga',async (req,res)=>{
+    res.render('warga');
+});
+
+app.get('/logout',async (req,res)=>{
+    res.render('login');
+});
+app.get('/changepass',async (req,res)=>{
+    res.render('changepass');
+});
+app.get('/beliminyak',async (req,res)=>{
+    res.render('beliminyak');
 });
 
 var sec = 'admin123'
