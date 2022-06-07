@@ -14,7 +14,7 @@ body{
     width: 400px;
     background: white;
     border-radius: 20px;
-    box-shadow: 20px 10px 15px rgb(92, 91, 91);
+    box-shadow: 20px 10px 15px rgb(47, 97, 145);
   }
   .center h2{
     text-align: center;
@@ -57,6 +57,16 @@ body{
     pointer-events: none;
     transition: .5s;
   }
+  .text label.date{
+    position: absolute;
+    top: 0%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+  }
   .text span::before{
     content: '';
     position: absolute;
@@ -75,6 +85,11 @@ body{
   .text input:focus ~ span::before,
   .text input:valid ~ span::before{
     width: 100%;
+  }
+  .text input:focus ~ label.date,
+  .text input:valid ~ label.date{
+    top: -5px;
+    color: #2691d9;
   }
   
   input[type="submit"]{
