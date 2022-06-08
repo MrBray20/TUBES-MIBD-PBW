@@ -16,6 +16,8 @@ app.set('view engine', 'ejs');
 app.set('views', [path.join(__dirname, 'views'), 
 path.join(__dirname, 'views/Admin'),
 path.join(__dirname, 'views/Warga'),
+path.join(__dirname, 'views/RT'),
+path.join(__dirname, 'views/RW'),
 path.join(__dirname, 'views/StafPenjualan')]);
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.resolve('public')));
@@ -322,6 +324,23 @@ app.get('/changepass',async (req,res)=>{
 });
 app.get('/beliminyak',async (req,res)=>{
     res.render('beliminyak');
+});
+
+//RT
+app.get('/',async (req,res)=>{
+    res.render('login');
+});
+app.get('/homert',async (req,res)=>{
+    res.render('homert');
+});
+app.get('/akunwarga',async (req,res)=>{
+    res.render('akunwarga');
+});
+app.get('/datawarga',async (req,res)=>{
+    res.render('datawarga');
+});
+app.get('/pesananwarga',async (req,res)=>{
+    res.render('pesananwarga');
 });
 
 var sec = 'staf123'
