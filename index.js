@@ -17,6 +17,8 @@ app.set('view engine', 'ejs');
 app.set('views', [path.join(__dirname, 'views'), 
 path.join(__dirname, 'views/Admin'),
 path.join(__dirname, 'views/Warga'),
+path.join(__dirname, 'views/RT'),
+path.join(__dirname, 'views/RW'),
 path.join(__dirname, 'views/StafPenjualan')]);
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.resolve('public')));
@@ -382,6 +384,22 @@ app.post('/addperioda',async (req,res)=>{
     }
 });
 
+app.get('/addrt',async (req,res)=>{
+    if(req.user){
+        res.render('addrt');
+    }else{
+        res.redirect('/');
+    }
+});
+app.post('/addrt',async (req,res)=>{
+    if(req.user){
+        res.redirect('datart');
+    }else{
+        res.redirect('/');
+    }
+});
+
+
 
 app.listen(port,()=>{
     console.log('ready!');
@@ -436,6 +454,38 @@ app.get('/changepass',async (req,res)=>{
 app.get('/beliminyak',async (req,res)=>{
     res.render('beliminyak');
 });
+
+//RT
+app.get('/',async (req,res)=>{
+    res.render('login');
+});
+app.get('/homert',async (req,res)=>{
+    res.render('homert');
+});
+app.get('/akunwarga',async (req,res)=>{
+    res.render('akunwarga');
+});
+app.get('/datawarga',async (req,res)=>{
+    res.render('datawarga');
+});
+app.get('/pesananwarga',async (req,res)=>{
+    res.render('pesananwarga');
+});
+
+//RW
+app.get('/',async (req,res)=>{
+    res.render('login');
+});
+app.get('/homerw',async (req,res)=>{
+    res.render('homerw');
+});
+app.get('/datart',async (req,res)=>{
+    res.render('datart');
+});
+app.get('/statusrt',async (req,res)=>{
+    res.render('statusrt');
+});
+
 
 var sec = 'staf123'
 var hash = crypto.createHash('sha256').update(sec).digest('base64')
