@@ -59,6 +59,19 @@ const getuser = (conn,username,pass) =>{
     })
 }
 
+const addkecamatan = (conn,nama_kec) => {
+    return new Promise((resolve, rejects) =>{
+        conn.query(`INSERT INTO kecamatan (nama_kec) VALUES ('${nama_kec}')`,(err, result) =>{
+            if(err){
+                rejects(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+
 app.get('/',async (req,res)=>{
     res.render('login');
 });
@@ -75,6 +88,9 @@ app.post('/home',async (req,res)=>{
         res.cookie('AuthToken',authToken);
         if (user[0].role_u==='admin') {
             res.redirect('homeadmin')
+        }
+        else if(user[0].role_u==='staf'){
+            res.redirect('homestaf')
         }
         else{
             res.redirect('/');
@@ -120,6 +136,11 @@ app.get('/kecamatan',async (req,res)=>{
 });
 app.post('/kecamatan',async (req,res)=>{
     if(req.user){
+        const {kecamatan} = req.body;
+        console.log(req.body);
+        const conn = await dbConnect();
+        const user = await addkecamatan(conn,kecamatan);
+        conn.release();
         res.redirect('kecamatan');
     }else{
         res.redirect('/');
@@ -303,6 +324,6 @@ app.get('/beliminyak',async (req,res)=>{
     res.render('beliminyak');
 });
 
-// var sec = 'admin123'
-// var hash = crypto.createHash('sha256').update(sec).digest('base64')
-// console.log(hash);
+var sec = 'staf123'
+var hash = crypto.createHash('sha256').update(sec).digest('base64')
+console.log(hash);
