@@ -2,12 +2,13 @@ import * as url from 'url';
     const __filename = url.fileURLToPath(import.meta.url);
     const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import express from 'express';
-import path from 'path';
+import path, { resolve } from 'path';
 import mysql from 'mysql';
 import crypto from 'crypto';
 import multer from 'multer';
 import session from 'express-session';
 import cookiePerser from 'cookie-parser'
+import { rejects } from 'assert';
 
 const port = 8080;
 const app = express();
@@ -46,6 +47,30 @@ const dbConnect = () =>{
     })
 }
 
+const addPerioda = (conn,nama,tanggalmulai,tanggalberakhir) =>{
+    return new Promise ((resolve,rejects) =>{
+        conn.query(`INSERT INTO periodepemesanan (nama_perioda,tanggal_mulai,tanggal_berakhir) VALUES ('${nama}','${tanggalmulai}','${tanggalberakhir}')`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+const addProduk = (conn,nama,harga) =>{
+    return new Promise ((resolve,rejects)=>{
+        conn.query(`INSERT INTO kemasanmigor (nama_minyak,harga) VALUES ('${nama}','${harga}')`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
 const getuser = (conn,username,pass) =>{
     return new Promise((resolve, rejects) =>{
         conn.query(`SELECT username, pass, role_u FROM users WHERE username LIKE '${username}' AND pass LIKE '${pass}'`,(err,result)=>{
@@ -53,6 +78,30 @@ const getuser = (conn,username,pass) =>{
                 rejects(err);
             }
             else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const addUser = (conn,username,password,nama,role_u) => {
+    return new Promise ((resolve, rejects) => {
+        conn.query(`INSERT INTO users (username,pass,nama,role_u) VALUES ('${username}','${password}','${nama}','${role_u}')`,(err,result) =>{
+            if(err){
+                rejects(err);
+            }else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const addRw = (conn,norw,namaketua,id_kel) => {
+    return new Promise ((resolve,rejects) =>{
+        conn.query(`INSERT INTO rw (no_rw,nama_ketua_rw,id_kel) VALUES ('${norw}','${namaketua}',${id_kel})`,(err,result)=>{
+            if(err){
+                rejects(err);
+            }else{
                 resolve(result);
             }
         })
@@ -71,6 +120,41 @@ const addkecamatan = (conn,nama_kec) => {
     });
 };
 
+const addkelurahan = (conn,nama_kel,id_kec) => {
+    return new Promise((resolve, rejects) =>{
+        conn.query(`INSERT INTO kelurahan (nama_kel,id_kec) VALUES ('${nama_kel}',${id_kec})`,(err, result) =>{
+            if(err){
+                rejects(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getidKec = (conn,nama_kec) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT id_kec FROM kecamatan WHERE nama_kec LIKE '${nama_kec}'`,(err, result) =>{
+            if(err){
+                rejects(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getidkel = (conn,nama_kel) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT id_kel FROM kelurahan WHERE nama_kel LIKE '${nama_kel}'`,(err, result) =>{
+            if(err){
+                rejects(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
 
 app.get('/',async (req,res)=>{
     res.render('login');
@@ -155,6 +239,7 @@ app.get('/addkecamatan',async (req,res)=>{
     }
 });
 
+
 app.get('/kelurahan',async (req,res)=>{
     if(req.user){
         res.render('kelurahan');
@@ -164,6 +249,11 @@ app.get('/kelurahan',async (req,res)=>{
 });
 app.post('/kelurahan',async (req,res)=>{
     if(req.user){
+        const {kelurahan,kecamatan} = req.body;
+        const conn = await dbConnect();
+        const id_kec = await getidKec(conn,kecamatan);
+        const user = await addkelurahan(conn,kelurahan,id_kec[0].id_kec);
+        conn.release();
         res.redirect('kelurahan');
     }else{
         res.redirect('/');
@@ -194,6 +284,15 @@ app.get('/addrw',async (req,res)=>{
 });
 app.post('/addrw',async (req,res)=>{
     if(req.user){
+        const {norw,namaketua,username,password,kelurahan} = req.body
+        var role = 'rw'
+        var pass = password
+        var hashpass = crypto.createHash('sha256').update(pass).digest('base64');
+        const conn = await dbConnect();
+        const id_kel = await getidkel(conn,kelurahan);
+        const user = await addUser(conn,username,hashpass,namaketua,role);
+        const addrw = await addRw(conn,norw,namaketua,id_kel[0].id_kel);
+        conn.release();
         res.redirect('rw');
     }else{
         res.redirect('/');
@@ -217,6 +316,12 @@ app.get('/adduser',async (req,res)=>{
 });
 app.post('/adduser',async (req,res)=>{
     if(req.user){
+        const {nama,username,password,role}=req.body
+        const conn = await dbConnect();
+        var sec = password;
+        var hashpass = crypto.createHash('sha256').update(sec).digest('base64')
+        const user = await addUser(conn,username,hashpass,nama,role);
+        conn.release();
         res.redirect('users');
     }else{
         res.redirect('/');
@@ -240,6 +345,10 @@ app.get('/addproduk',async (req,res)=>{
 });
 app.post('/addproduk',async (req,res)=>{
     if(req.user){
+        const {namaproduk,harga} = req.body
+        const conn = await dbConnect();
+        const produk = await addProduk(conn,namaproduk,harga);
+        conn.release();
         res.redirect('produk');
     }else{
         res.redirect('/');
@@ -263,6 +372,10 @@ app.get('/addperioda',async (req,res)=>{
 });
 app.post('/addperioda',async (req,res)=>{
     if(req.user){
+        const {namaperiode,tanggalmulai,tanggalberakhir}=req.body
+        const conn = await dbConnect();
+        const periode = await addPerioda(conn,namaperiode,tanggalmulai,tanggalberakhir);
+        conn.release();
         res.redirect('perioda');
     }else{
         res.redirect('/');

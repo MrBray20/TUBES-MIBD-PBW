@@ -12,24 +12,24 @@
         <h2>Menambah User</h2>
         <form method="post" action="/adduser">
             <div class="text">
-                <input type="text" required>
+                <input type="text" required name="nama">
                 <span></span>
                 <label>Nama</label>
             </div>
             <div class="text">
-                <input type="text" required>
+                <input type="text" required name="username">
+                <span></span>
+                <label>Username</label>
+            </div>
+            <div class="text">
+                <input type="text" required name="password">
+                <span></span>
+                <label>Password</label>
+            </div>
+            <div class="text">
+                <input type="text" required name="role">
                 <span></span>
                 <label>Role</label>
-            </div>
-            <div class="text">
-                <input type="text" required>
-                <span></span>
-                <label>Alamat</label>
-            </div>
-            <div class="text">
-                <input type="text" required>
-                <span></span>
-                <label>Kelurahan</label>
             </div>
             <br>
             <input type="submit" value="Tambah">
