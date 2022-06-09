@@ -26,48 +26,26 @@
         <p>Users </p>
         <table>
             <tr>
-                <th>Id_U</th>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Role</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-
-                <td> <a href="">0001</a> </td>
-                <td> <a href="">ahmad</a> </td>
-                <td> <a href="">admin</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0002</a> </td>
-                <td><a href="">budi</a></td>
-                <td><a href="">kepalaDinas</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0003</a> </td>
-                <td><a href="">joko</a></td>
-                <td><a href="">RW</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0004</a> </td>
-                <td><a href="">udin</a></td>
-                <td><a href="">RT</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0005</a> </td>
-                <td><a href="">iman</a></td>
-                <td><a href="">user</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0006</a> </td>
-                <td><a href="">jack</a></td>
-                <td><a href="">staff</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const user of users) { %>
+                <tr>
+                    <%if(user.role_u!=='admin'){%>
+                        <td><%= i %> </td>
+                        <td><%= user.nama %></td>
+                        <td><%= user.role_u %></td>
+                        <td><a href="user/hapus/<%=user.id_U %>" >hapus</a> </td>
+                        <td><a href="">Edit</a></td>
+                        <% i +=1; %> 
+                    <%}%>
+                    
+                </tr>
+                
+            <%} %> 
             
         </table>
 

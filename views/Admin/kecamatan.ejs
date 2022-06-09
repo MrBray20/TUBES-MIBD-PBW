@@ -28,25 +28,22 @@
             <tr>
                 <th>No</th>
                 <th>Nama Kecamatan</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td> <a >Bandung Barat</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><a href="">Bekasi</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">Bandung</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i =1; %> 
+            <% for (const kec of kecamatan) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= kec.nama_kec %></td>
+                    <td><a href="kecamatan/hapus/<%=kec.id_kec %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                </tr>
+                <% i +=1; %> 
+            <%} %> 
             
         </table>
+
+        
 
         <a href="addkecamatan">
             <input type="submit" value="Tambah" name='addNewRole'>

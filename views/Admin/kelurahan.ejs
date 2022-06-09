@@ -29,38 +29,19 @@
                 <th>No</th>
                 <th>Nama Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td> <a >Cisarua</a></td>
-                <td> <a >Bandung Barat</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><a href="">Lembang</a></td>
-                <td> <a >Bandung Barat</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">Parongpong</a></td>
-                <td> <a >Bandung Barat</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">Antapani</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">Astana Anyar</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const kel of kelurahan) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= kel.nama_kel %></td>
+                    <td><%= kel.nama_kec %></td>
+                    <td><a href="kelurahan/hapus/<%=kel.nama_kel %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                </tr>
+                <% i +=1; %> 
+            <%} %> 
             
         </table>
             
