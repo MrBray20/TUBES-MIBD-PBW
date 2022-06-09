@@ -19,6 +19,7 @@ path.join(__dirname, 'views/Admin'),
 path.join(__dirname, 'views/Warga'),
 path.join(__dirname, 'views/RT'),
 path.join(__dirname, 'views/RW'),
+path.join(__dirname, 'views/KepDinas'),
 path.join(__dirname, 'views/StafPenjualan')]);
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.resolve('public')));
@@ -486,6 +487,31 @@ app.get('/statusrt',async (req,res)=>{
     res.render('statusrt');
 });
 
+//KepDinas
+app.get('/',async (req,res)=>{
+    res.render('login');
+});
+app.get('/homekepdin',async (req,res)=>{
+    res.render('homekepdin');
+});
+app.get('/rekapitulasirw',async (req,res)=>{
+    res.render('rekapitulasirw');
+});
+app.get('/rekapitulasikec',async (req,res)=>{
+    res.render('rekapitulasikec');
+});
+app.get('/rekapitulasikel',async (req,res)=>{
+    res.render('rekapitulasikel');
+});
+app.get('/grafikrw',async (req,res)=>{
+    res.render('grafikrw');
+});
+app.get('/grafikkec',async (req,res)=>{
+    res.render('grafikkec');
+});
+app.get('/grafikkel',async (req,res)=>{
+    res.render('grafikkel');
+});
 
 var sec = 'staf123'
 var hash = crypto.createHash('sha256').update(sec).digest('base64')

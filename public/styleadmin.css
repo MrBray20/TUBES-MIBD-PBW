@@ -170,3 +170,105 @@ a.a6{
     border: 18px inset #1C6EA4;
     border-radius: 10px 10px 10px 10px;
 }
+  #bar-chart {
+    height: 380px;
+    width: 70%;
+    position: relative;
+    margin: 50px auto 0;
+  }
+  #bar-chart * {
+    box-sizing: border-box;
+  }
+  #bar-chart .graph {
+    height: 283px;
+    position: relative;
+  }
+  #bar-chart .bars {
+    height: 253px;
+    padding: 0 2%;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+  }
+  #bar-chart .bar-group {
+    display: block;
+    float: left;
+    height: 100%;
+    position: relative;
+    width: 12%;
+    margin-right: 10%;
+  }
+  #bar-chart .bar-group:last-child {
+    margin-right: 0;
+  }
+  #bar-chart .bar-group .bar {
+    height: 0;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.15);
+    border: 1px solid #2d2d2d;
+    border-radius: 3px 3px 0 0;
+    bottom: 0;
+    cursor: pointer;
+    height: 0;
+    position: absolute;
+    text-align: center;
+    width: 25%;
+  }
+  #bar-chart .bar-group .bar:nth-child(2) {
+    left: 35%;
+  }
+  #bar-chart .bar-group .bar:nth-child(3) {
+    left: 70%;
+  }
+  #bar-chart .bar-group .bar span {
+    display: none;
+  }
+  #bar-chart ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #bar-chart .x-axis {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+  #bar-chart .x-axis li {
+    float: left;
+    margin-right: 10.5%;
+    font-size: 11px;
+    width: 11.5%;
+  }
+  #bar-chart .x-axis li:last-child {
+    margin-right: 0;
+  }
+  #bar-chart .y-axis {
+    position: absolute;
+    text-align: right;
+    width: 100%;
+  }
+  #bar-chart .y-axis li {
+    border-top: 1px solid #4e5464;
+    display: block;
+    height: 63.25px;
+    width: 100%;
+  }
+  #bar-chart .y-axis li span {
+    display: block;
+    font-size: 11px;
+    margin: -10px 0 0 -60px;
+    padding: 0 10px;
+    width: 40px;
+  }
+  #bar-chart .stat-1 {
+    background-image: -webkit-linear-gradient(left, #ff4500 0%, #ff4500 47%, #cf3a02 50%, #cf3a02 100%);
+    background-image: linear-gradient(to right, #ff4500 0%, #ff4500 47%, #cf3a02 50%, #cf3a02 100%);
+  }
+  #bar-chart .stat-2 {
+    background-image: -webkit-linear-gradient(left, #b8f123 0%, #b8f123 47%, #79a602 50%, #79a602 100%);
+    background-image: linear-gradient(to right, #b8f123 0%, #b8f123 47%, #79a602 50%, #79a602 100%);
+  }
+  #bar-chart .stat-3 {
+    background-image: -webkit-linear-gradient(left, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
+    background-image: linear-gradient(to right, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
+  }
