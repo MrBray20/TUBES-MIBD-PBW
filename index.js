@@ -9,6 +9,7 @@ import multer from 'multer';
 import session from 'express-session';
 import cookiePerser from 'cookie-parser'
 import { rejects } from 'assert';
+import { read } from 'fs';
 
 const port = 8080;
 const app = express();
@@ -28,6 +29,7 @@ const pool = mysql.createPool({
     password:'',
     database:'tubesmibdpbw',
     host:'localhost',
+    dateStrings: true,
     connectionLimit:10
 });
 
@@ -61,6 +63,18 @@ const addPerioda = (conn,nama,tanggalmulai,tanggalberakhir) =>{
     })
 }
 
+const getPerioda = (conn) =>{
+    return new Promise((resolve,rejects)=>{
+        conn.query('SELECT * FROM periodepemesanan',(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
 const addProduk = (conn,nama,harga) =>{
     return new Promise ((resolve,rejects)=>{
         conn.query(`INSERT INTO kemasanmigor (nama_minyak,harga) VALUES ('${nama}','${harga}')`,(err,result)=>{
@@ -71,11 +85,62 @@ const addProduk = (conn,nama,harga) =>{
             }
         });
     });
+};
+
+const getproduk= (conn)=>{
+    return new Promise((resolve,rejects)=>{
+        conn.query(`SELECT * FROM kemasanmigor`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
 }
 
 const getuser = (conn,username,pass) =>{
     return new Promise((resolve, rejects) =>{
         conn.query(`SELECT username, pass, role_u FROM users WHERE username LIKE '${username}' AND pass LIKE '${pass}'`,(err,result)=>{
+            if(err){
+                rejects(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getuserall = (conn,username,pass) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT * FROM users `,(err,result)=>{
+            if(err){
+                rejects(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getiduser = (conn,nama) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT id_U FROM users WHERE username LIKE '${nama}'`,(err,result)=>{
+            if(err){
+                rejects(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getrw = (conn) =>{
+    return new Promise((resolve, rejects) =>{
+        conn.query(`SELECT * FROM viewrw `,(err,result)=>{
             if(err){
                 rejects(err);
             }
@@ -98,9 +163,9 @@ const addUser = (conn,username,password,nama,role_u) => {
     })
 }
 
-const addRw = (conn,norw,namaketua,id_kel) => {
+const addRw = (conn,norw,namaketua,id_kel,id_u) => {
     return new Promise ((resolve,rejects) =>{
-        conn.query(`INSERT INTO rw (no_rw,nama_ketua_rw,id_kel) VALUES ('${norw}','${namaketua}',${id_kel})`,(err,result)=>{
+        conn.query(`INSERT INTO rw (no_rw,nama_ketua_rw,id_kel,id_u) VALUES ('${norw}','${namaketua}',${id_kel},${id_u})`,(err,result)=>{
             if(err){
                 rejects(err);
             }else{
@@ -157,6 +222,67 @@ const getidkel = (conn,nama_kel) =>{
         });
     });
 };
+
+const getkecamatan = (conn) =>{
+    return new Promise((resolve,rejects) =>{
+        conn.query(`SELECT * FROM kecamatan `,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getkelurahan = (conn) =>{
+    return new Promise((resolve,rejects) =>{
+        conn.query(`SELECT * FROM kelurahan_data`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const deletekec = (conn,id) =>{
+    return new Promise((resolve,rejects) =>{
+        conn.query(`DELETE FROM kecamatan WHERE id_kec = ${id}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            };
+        });
+    });
+};
+
+const deletekel = (conn,nama_kel) =>{
+    return new Promise((resolve,rejects) =>{
+        conn.query(`DELETE FROM kelurahan WHERE nama_kel = '${nama_kel}'`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            };
+        });
+    });
+};
+
+const deleterwbyid = (conn,id) =>{
+    return new Promise((resolve,rejects) =>{
+        conn.query(`DELETE FROM rw WHERE id_kel = ${id}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            };
+        });
+    });
+};
+
 
 app.get('/',async (req,res)=>{
     res.render('login');
@@ -215,15 +341,19 @@ app.get('/logout',async (req,res)=>{
 
 app.get('/kecamatan',async (req,res)=>{
     if(req.user){
-        res.render('kecamatan');
-    }else{
+        const conn = await dbConnect();
+        const kecamatan = await getkecamatan(conn);
+        conn.release();
+        res.render('kecamatan',{
+            kecamatan:kecamatan
+        });
+    }else{kelurahan
         res.redirect('/');
     }
 });
 app.post('/kecamatan',async (req,res)=>{
     if(req.user){
         const {kecamatan} = req.body;
-        console.log(req.body);
         const conn = await dbConnect();
         const user = await addkecamatan(conn,kecamatan);
         conn.release();
@@ -241,10 +371,27 @@ app.get('/addkecamatan',async (req,res)=>{
     }
 });
 
+app.get('/kecamatan/hapus/(:id)',async (req,res)=>{
+    if(req.user){
+        const {id}=req.params
+        const conn =await dbConnect();
+        const hapueskec = await deletekec(conn,id);
+        console.log(id)
+        conn.release();
+        res.redirect('/kecamatan');
+    }else{
+        res.redirect('/');
+    }
+})
 
 app.get('/kelurahan',async (req,res)=>{
     if(req.user){
-        res.render('kelurahan');
+        const conn = await dbConnect();
+        const kelurahan = await getkelurahan(conn);
+        conn.release();
+        res.render('kelurahan',{
+            kelurahan:kelurahan
+        });
     }else{
         res.redirect('/');
     }
@@ -269,10 +416,28 @@ app.get('/addkelurahan',async (req,res)=>{
     }
 });
 
+app.get('/kelurahan/hapus/(:nama_kel)',async (req,res)=>{
+    if(req.user){
+        const {nama_kel}=req.params
+        const conn = await dbConnect();
+        const idkel = await getidkel(conn,nama_kel);
+        const hapusrw = await deleterwbyid(conn,idkel[0].id_kel);
+        const hapuskel = await deletekel(conn,nama_kel);
+        conn.release();
+        res.redirect('/kelurahan');
+    }else{
+        res.redirect('/');
+    }
+})
 
 app.get('/rw',async (req,res)=>{
     if(req.user){
-        res.render('rw');
+        const conn = await dbConnect();
+        const rw_data = await getrw(conn);
+        conn.release();
+        res.render('rw',{
+            rw_data:rw_data
+        });
     }else{
         res.redirect('/');
     }
@@ -293,7 +458,8 @@ app.post('/addrw',async (req,res)=>{
         const conn = await dbConnect();
         const id_kel = await getidkel(conn,kelurahan);
         const user = await addUser(conn,username,hashpass,namaketua,role);
-        const addrw = await addRw(conn,norw,namaketua,id_kel[0].id_kel);
+        const getid = await getiduser(conn,username);
+        const addrw = await addRw(conn,norw,namaketua,id_kel[0].id_kel,getid[0].id_U);
         conn.release();
         res.redirect('rw');
     }else{
@@ -304,7 +470,13 @@ app.post('/addrw',async (req,res)=>{
 
 app.get('/users',async (req,res)=>{
     if(req.user){
-        res.render('users');
+        const conn = await dbConnect();
+        const users = await getuserall(conn);
+        console.log(users);
+        conn.release();
+        res.render('users',{
+            users:users
+        });
     }else{
         res.redirect('/');
     }
@@ -333,7 +505,12 @@ app.post('/adduser',async (req,res)=>{
 
 app.get('/produk',async (req,res)=>{
     if(req.user){
-        res.render('produk');
+        const conn = await dbConnect();
+        const produk = await getproduk(conn);
+        conn.release();
+        res.render('produk',{
+            produk:produk
+        });
     }else{
         res.redirect('/');
     }
@@ -360,13 +537,20 @@ app.post('/addproduk',async (req,res)=>{
 
 app.get('/perioda',async (req,res)=>{
     if(req.user){
-        res.render('perioda');
+        const conn = await dbConnect();
+        const perioda = await getPerioda(conn);
+        conn.release();
+        console.log(perioda[0].tanggal_mulai)
+        res.render('perioda',{
+            perioda:perioda
+        });
     }else{
         res.redirect('/');
     }
 });
 app.get('/addperioda',async (req,res)=>{
     if(req.user){
+        
         res.render('addperioda');
     }else{
         res.redirect('/');
@@ -405,6 +589,8 @@ app.listen(port,()=>{
     console.log('ready!');
 });
 
+
+
 //StafPenjualanPage
 app.get('/',async (req,res)=>{
     res.render('login');
@@ -426,9 +612,9 @@ app.get('/logout',async (req,res)=>{
 app.get('/kecamatan',async (req,res)=>{
     res.render('stafperiodepesanan');
 });
-app.get('/kelurahan',async (req,res)=>{
-    res.render('stafstatuspembayaran');
-});
+// app.get('/kelurahan',async (req,res)=>{
+//     res.render('stafstatuspembayaran');
+// });
 
 //Warga
 app.get('/',async (req,res)=>{

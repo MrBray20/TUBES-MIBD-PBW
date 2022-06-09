@@ -26,36 +26,22 @@
         <p>Produk </p>
         <table>
             <tr>
-                <th>Id_M</th>
+                <th>No</th>
                 <th>Nama Produk</th>
                 <th>Harga Perliter</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-
-                <td> <a href="">0001</a> </td>
-                <td> <a href="">sunco</a> </td>
-                <td> <a href="">17.000</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0002</a> </td>
-                <td><a href="">sania</a></td>
-                <td><a href="">15.000</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0003</a> </td>
-                <td><a href="">amanda</a></td>
-                <td><a href="">11.000</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0004</a> </td>
-                <td><a href="">bimoli</a></td>
-                <td><a href="">14.000</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const prod of produk) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= prod.nama_minyak %></td>
+                    <td><%= prod.harga %></td>
+                    <td><a href="produk/hapus/<%=prod.id_migor %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                </tr>
+                <% i +=1; %> 
+            <%} %>
             
             
         </table>

@@ -31,48 +31,21 @@
                 <th>Nama Ketua</th>
                 <th>Alamat</th>
                 <th>Kelurahan</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td> <a href="">001</a></td>
-                <td> <a href="">ahmad</a> </td>
-                <td> jalan salak no 1</td>
-                <td> <a href="">cisarua</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><a href="">002</a></td>
-                <td><a href="">budi</a></td>
-                <td>jalan bunga mawar</td>
-                <td> <a href="">cisarua</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">003</a></td>
-                <td><a href="">joko</a></td>
-                <td>jalan salak no 29</td>
-                <td> <a href="">cisarua</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td><a href="">001</a></td>
-                <td><a href="">udin</a></td>
-                <td>jalan durian no 33</td>
-                <td> <a href="">Lembang</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td><a href="">002</a></td>
-                <td><a href="">iman</a></td>
-                <td>jalan kijang no 25</td>
-                <td> <a href="">Lembang</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const rw of rw_data) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= rw.no_rw %></td>
+                    <td><%= rw.nama_ketua_rw %></td>
+                    <td><%= rw.alamat %></td>
+                    <td><%= rw.nama_kel %></td>
+                    <td><a href="rw/hapus/<%=rw.nama_ketua_rw %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                </tr>
+                <% i +=1; %> 
+            <%} %> 
             
         </table>
 

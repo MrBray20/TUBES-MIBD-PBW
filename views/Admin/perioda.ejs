@@ -26,41 +26,24 @@
         <p>Perioda Pemesanan </p>
         <table>
             <tr>
-                <th>Id_Perioda</th>
+                <th>No</th>
                 <th>Nama Perioda</th>
                 <th>Tanggal mulai</th>
                 <th>Tanggal berakhir</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-
-                <td> <a href="">0001</a> </td>
-                <td> <a href="">Perioda 1</a> </td>
-                <td> <a href="">17-01-2022</a> </td>
-                <td> <a href="">01-02-2022</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0002</a> </td>
-                <td> <a href="">Perioda 2</a> </td>
-                <td> <a href="">10-02-2022</a> </td>
-                <td> <a href="">24-02-2022</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0003</a> </td>
-                <td> <a href="">Perioda 3</a> </td>
-                <td> <a href="">01-03-2022</a> </td>
-                <td> <a href="">15-03-2022</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0004</a> </td>
-                <td> <a href="">Perioda 4</a> </td>
-                <td> <a href="">24-03-2022</a> </td>
-                <td> <a href="">01-04-2022</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const per of perioda) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%=per.nama_perioda %></td>
+                    <td><%= per.tanggal_mulai %></td>
+                    <td><%= per.tanggal_berakhir %></td>
+                    <td><a href="perioda/hapus/<%=per.id_perida %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                </tr>
+                <% i +=1; %> 
+            <%} %>
             
             
         </table>
