@@ -20,7 +20,8 @@
     <div class="main">
         <p>Beli Minyak Goreng </p>
         <form action="/action_page.php" method="get">
-            <a>Pilih Periode Pemesanan Anda:</a>
+            <div class="inputlist">
+            <a>&emsp;&nbsp;Pilih Periode Pemesanan Anda:</a>
             <input list="periods" name="period" id="period">
             <datalist id="periods">
               <option value="Periode 1 (17-01-2022 s/d 01-02-2022)">
@@ -28,7 +29,8 @@
               <option value="Periode 3 (01-03-2022 s/d 15-03-2022)">
               <option value="Periode 4 (24-03-2022 s/d 01-04-2022)">
             </datalist>
-            <input type="submit">
+            <input type="submit" value="Pilih" name='pilih'>
+            </div>
           </form>
           <br>
           <br>
@@ -64,12 +66,23 @@
                 <td><a href="">bimoli</a></td>
                 <td><a href="">14.000</a></td>
                 <td> <a href=""><input type="number" id="quantity" name="quantity" min="1" max="5"></a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td><a href="">14.000</a></td>
             </tr>
             
             
         </table>
-        <a href="pembayaran">
+        <a href="pembayaran">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;
             <input type="submit" value="Selesai" name='check'>
         </a>
     </div>
