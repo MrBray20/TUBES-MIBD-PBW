@@ -12,12 +12,12 @@
         <h2>Menambah RT</h2>
         <form method="post" action="/addrt">
             <div class="text">
-                <input type="text" required>
+                <input type="text" required name="RT">
                 <span></span>
                 <label>RT</label>
             </div>
             <div class="text">
-                <input type="text" required>
+                <input type="text" required name="namaKetua">
                 <span></span>
                 <label>Nama Ketua RT</label>
             </div>
@@ -27,13 +27,18 @@
                 <label>Alamat</label>
             </div>
             <div class="text">
-                <input type="text" required>
+                <input type="text" required name="username">
                 <span></span>
-                <label>Kecamatan</label>
+                <label>Usernmae</label>
+            </div>
+            <div class="text">
+                <input type="text" required name="password">
+                <span></span>
+                <label>Password</label>
             </div>
             <br>
             <input type="submit" value="Tambah">
-            <a href="homerw"><input type="button" value="Batal"></a>
+            <a href="datart"><input type="button" value="Batal"></a>
             <br><br><br>
     </div>
     </form>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleadmin.css">
+    <link rel="stylesheet" href="stylewarga.css">
     <title>Document</title>
 </head>
 <body>
@@ -14,62 +14,47 @@
         <img src="/assets/user.png" alt="">
     </header>
     <div class="sidenav">
+        <a href="homewarga">Home Warga</a>
         <a href="changepass">Change Password</a>
         <a href="beliminyak">Beli Minyak</a>
     </div>
     <div class="main">
         <p>Beli Minyak Goreng </p>
         <form action="/action_page.php" method="get">
-            <a>Pilih Periode Pemesanan Anda:</a>
-            <input list="periods" name="period" id="period">
-            <datalist id="periods">
-              <option value="Periode 1 (17-01-2022 s/d 01-02-2022)">
-              <option value="Periode 2 (10-02-2022 s/d 24-02-2022)">
-              <option value="Periode 3 (01-03-2022 s/d 15-03-2022)">
-              <option value="Periode 4 (24-03-2022 s/d 01-04-2022)">
-            </datalist>
-            <input type="submit">
-          </form>
-          <br>
-          <br>
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
+            <br>
         <table>
             <tr>
-                <th>Id_M</th>
+                <th>No</th>
                 <th>Nama Produk</th>
                 <th>Harga Perliter</th>
                 <th>Jumlah</th>
                 <th>Total Harga</th>
             </tr>
+            <% var i = 1; %> 
+            <% for (const minyakgor of minyak) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= minyakgor.nama_minyak %></td>
+                    <td><%= minyakgor.harga %></td>
+                    <td><input type="number" class="inputminyak" name="quantity" min="0" max="5" value="0"></td>
+                    <% i +=1; %> 
+                </tr>
+            <%} %> 
             <tr>
-
-                <td> <a href="">0001</a> </td>
-                <td> <a href="">sunco</a> </td>
-                <td> <a href="">17.000</a> </td>
-                <td> <a href=""><input type="number" id="quantity" name="quantity" min="1" max="5"></a></td>
+                <td colspan="4" style="text-align: center;">Total Harga</td>
+                <td style="text-align:center ;"></td>
             </tr>
-            <tr>
-                <td> <a href="">0002</a> </td>
-                <td><a href="">sania</a></td>
-                <td><a href="">15.000</a></td>
-                <td> <a href=""><input type="number" id="quantity" name="quantity" min="1" max="5"></a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0003</a> </td>
-                <td><a href="">amanda</a></td>
-                <td><a href="">11.000</a></td>
-                <td> <a href=""><input type="number" id="quantity" name="quantity" min="1" max="5"></a></td>
-            </tr>
-            <tr>
-                <td> <a href="">0004</a> </td>
-                <td><a href="">bimoli</a></td>
-                <td><a href="">14.000</a></td>
-                <td> <a href=""><input type="number" id="quantity" name="quantity" min="1" max="5"></a></td>
-                <td><a href="">14.000</a></td>
-            </tr>
-            
-            
         </table>
-        <a href="pembayaran">
+        <a class="ref" href="pembayaran">
             <input type="submit" value="Selesai" name='check'>
         </a>
     </div>

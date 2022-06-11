@@ -14,6 +14,7 @@
         <img src="/assets/user.png" alt="">
     </header>
     <div class="sidenav">
+        <a href="homert">Home</a>
         <a href="datawarga">Data Warga</a>
         <a href="akunwarga">Buat Akun Warga</a>
         <a href="pesananwarga">Pesanan Warga</a>
@@ -22,54 +23,20 @@
         <br>
         <table>
             <tr>
-                <th>Id_Warga</th>
+                <th>No</th>
                 <th>Nama Warga</th>
                 <th>Alamat</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-                <td>001</td>
-                <td> <a href="">Doni</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">doni123</a></td>
-                <td> <a href="">1235434</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td><a href="">Joko</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">joko123</a></td>
-                <td> <a href="">3463426</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td><a href="">Budi</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">budi123</a></td>
-                <td> <a href="">3456534</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>004</td>
-                <td><a href="">Dodo</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">dodo123</a></td>
-                <td> <a href="">7432534</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>005</td>
-                <td><a href="">Rangga</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">rangga123</a></td>
-                <td> <a href="">7435543</a></td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            
+            <% var i  = 1;%>
+            <%for (const warga of datawarga) {%>
+                <td style="text-align:center;"> <%=i%></td>
+                <td> <%=warga.nama_warga%></td>
+                <td> <%=warga.alamat%></td>
+                <td><a href="rt/hapusdata/<%=warga.id_warga %>" >hapus</a> </td>
+                <td><a href="">Edit</a></td>
+                <% i++%>
+            <%}%>
         </table>
     </div>
 </body>

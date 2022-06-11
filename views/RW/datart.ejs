@@ -14,6 +14,7 @@
         <img src="/assets/user.png" alt="">
     </header>
     <div class="sidenav">
+        <a href="homerw">Home</a>
         <a href="datart">Data RT</a>
         <a href="statusrt">Status Pesanan RT</a>
     </div>
@@ -25,49 +26,20 @@
                 <th>RT</th>
                 <th>Nama Ketua RT</th>
                 <th>Alamat</th>
-                <th>Kecamatan</th>
-                <th>Akses</th>
+                <th colspan="2">Akses</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td> <a href="">001</a></td>
-                <td> <a href="">ahmad</a> </td>
-                <td> jalan salak no 1</td>
-                <td> <a href="">tanah abang</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><a href="">002</a></td>
-                <td><a href="">budi</a></td>
-                <td>jalan bunga mawar</td>
-                <td> <a href="">bojong gede</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="">003</a></td>
-                <td><a href="">joko</a></td>
-                <td>jalan salak no 29</td>
-                <td> <a href="">kiluet</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td><a href="">001</a></td>
-                <td><a href="">udin</a></td>
-                <td>jalan durian no 33</td>
-                <td> <a href="">ngamprah</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td><a href="">002</a></td>
-                <td><a href="">iman</a></td>
-                <td>jalan kijang no 25</td>
-                <td> <a href="">bsojong gede</a> </td>
-                <td> <a href="">hapus</a> <a href="">Edit</a></td>
-            </tr>
+            <% var i = 1; %> 
+            <% for (const rt of datart) { %>
+                <tr>
+                    <td><%= i %> </td>
+                    <td><%= rt.no_rt %></td>
+                    <td><%= rt.nama_kepala_rt %></td>
+                    <td><%= rt.alamat %></td>
+                    <td><a href="rw/hapusdata/<%=rt.id_rt %>" >hapus</a> </td>
+                    <td><a href="">Edit</a></td>
+                    <% i +=1; %> 
+                </tr>
+            <%} %> 
             
         </table>
 
