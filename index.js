@@ -725,8 +725,17 @@ app.get('/homestaf',async (req,res)=>{
 app.get('/stafperiodepesanan',async (req,res)=>{
     res.render('stafperiodepesanan');
 });
-app.get('/stafstatuspembayaran',async (req,res)=>{
-    res.render('stafstatuspembayaran');
+app.get('/stafstatuspembayaran1',async (req,res)=>{
+    res.render('stafstatuspembayaran1');
+});
+app.get('/stafstatuspembayaran2',async (req,res)=>{
+    res.render('stafstatuspembayaran2');
+});
+app.get('/stafstatuspembayaran3',async (req,res)=>{
+    res.render('stafstatuspembayaran3');
+});
+app.get('/stafstatuspembayaran4',async (req,res)=>{
+    res.render('stafstatuspembayaran4');
 });
 
 const getminyak = ((conn)=>{
