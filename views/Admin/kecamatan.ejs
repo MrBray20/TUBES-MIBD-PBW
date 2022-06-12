@@ -34,9 +34,8 @@
             <% for (const kec of kecamatan) { %>
                 <tr>
                     <td><%= i %> </td>
-                    <td><%= kec.nama_kec %></td>
+                    <td name="<%= kec.nama_kec %>"><%= kec.nama_kec %></td>
                     <td><a href="kecamatan/hapus/<%=kec.id_kec %>" >hapus</a> </td>
-                    <td><a href="">Edit</a></td>
                 </tr>
                 <% i +=1; %> 
             <%} %> 
@@ -46,7 +45,7 @@
         
 
         <a href="addkecamatan">
-            <input type="submit" value="Tambah" name='addNewRole'>
+            <input type="button" value="Tambah" name='addNewRole'>
         </a>
     </div>
 </body>

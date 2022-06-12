@@ -31,7 +31,8 @@ const pool = mysql.createPool({
     database:'tubesmibdpbw',
     host:'localhost',
     dateStrings: true,
-    connectionLimit:10
+    connectionLimit:10,
+    // port: 8111
 });
 
 const generateAuthToken = () =>{
@@ -334,7 +335,6 @@ const deleteperioda = (conn,id_perioda) =>{
 
 
 app.get('/',async (req,res)=>{
-    
     res.render('login');
 });
 
@@ -364,7 +364,13 @@ app.post('/home',async (req,res)=>{
             res.redirect('homert')
         }
         else if(user[0].role_u==='warga'){
-            res.redirect('homewarga')
+            const hashuser = crypto.createHash('sha256').update(username).digest('base64')
+            if(hashpass===hashuser){
+                res.redirect('changepass')
+            }
+            else{
+                res.redirect('homewarga')
+            }
         }
         else{
             res.redirect('/');
@@ -440,13 +446,37 @@ app.get('/kecamatan/hapus/(:id)',async (req,res)=>{
         const {id}=req.params
         const conn =await dbConnect();
         const hapueskec = await deletekec(conn,id);
-        console.log(id)
         conn.release();
         res.redirect('/kecamatan');
     }else{
         res.redirect('/');
     }
-})
+});
+
+const updateKec = (conn,id_kec,newnama)=>{
+    return new Promise((resolve,rejects)=>{
+        conn.query(`UPDATE kecamatan SET nama_kec = '${newnama}' WHERE id_kec = ${id_kec}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            };
+        });
+    });
+};
+
+app.get('/kecamatan/edit/(:nama)',async (req,res)=>{
+    if(req.user && req.user[0].role_u ==='admin'){
+        const {nama} = req.params
+        const conn = await dbConnect();
+        const id = await getidKec(conn,nama);
+        conn.release();
+        res.render('editkecamatan')
+    }else{
+        res.redirect('/');
+    }
+});
+
 
 app.get('/kelurahan',async (req,res)=>{
     if(req.user && req.user[0].role_u ==='admin'){
@@ -460,6 +490,7 @@ app.get('/kelurahan',async (req,res)=>{
         res.redirect('/');
     }
 });
+
 app.post('/kelurahan',async (req,res)=>{
     if(req.user && req.user[0].role_u ==='admin'){
         const {kelurahan,kecamatan} = req.body;
@@ -480,7 +511,7 @@ app.get('/addkelurahan',async (req,res)=>{
     }
 });
 
-app.get('/kelurahan/hapus/(:nama_kel)',async (req,res)=>{
+app.get('/kelurahan/hapus/(:nama_kel)/',async (req,res)=>{
     if(req.user && req.user[0].role_u ==='admin'){
         const {nama_kel} = req.params
         const conn = await dbConnect();
@@ -547,7 +578,6 @@ app.get('/users',async (req,res)=>{
     if(req.user && req.user[0].role_u ==='admin'){
         const conn = await dbConnect();
         const users = await getuserall(conn);
-        console.log(users);
         conn.release();
         res.render('users',{
             users:users
@@ -723,6 +753,20 @@ const getperiode = ((conn)=>{
         })
     })
 })
+
+const updatepass = (conn,id,newpass)=>{
+    return new Promise((resolve,rejects)=>{
+        conn.query(`UPDATE users SET pass = '${newpass}' WHERE id_U = ${id}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+
 //Warga
 app.get('/homewarga',async (req,res)=>{
     res.render('homewarga');
@@ -736,8 +780,25 @@ app.get('/warga',async (req,res)=>{
 });
 
 app.get('/changepass',async (req,res)=>{
-    res.render('changepass');
+    if (req.user && req.user[0].role_u==="warga") {
+        res.render('changepass');
+    } else {
+        res.redirect('/')
+    }
 });
+
+app.post('/changepass',async(req,res)=>{
+    if (req.user && req.user[0].role_u==="warga") {
+        const {password,newpassword}=req.body
+        const conn = await dbConnect();
+        var hashpass = crypto.createHash('sha256').update(newpassword).digest('base64')
+        const uppass = await updatepass(conn,req.user[0].id_U,hashpass);
+        conn.release();
+        res.redirect('homewarga');
+    } else {
+        res.redirect('/')
+    }
+})
 app.get('/beliminyak',async (req,res)=>{
     if(req.user && req.user[0].role_u =='warga'){
         const conn = await dbConnect();
@@ -789,6 +850,7 @@ const addwarga = (conn,nama_warga,id_rt,id_u) =>{
         })
     })
 }
+
 
 //RT
 app.get('/homert',async (req,res)=>{
@@ -898,7 +960,6 @@ app.get('/statusrt',async (req,res)=>{
 });
 app.get('/addrt',async (req,res)=>{
     if(req.user){
-        console.log(req.user)
         res.render('addrt');
     }else{
         res.redirect('/');
