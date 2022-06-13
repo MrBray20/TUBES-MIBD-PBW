@@ -920,6 +920,9 @@ app.get('/pesananwarga',async (req,res)=>{
     }
 });
 
+app.get('/pembayaran',async (req,res)=>{
+    res.render('pembayaran');
+});
 //RW
 
 const getidrw = (conn,idrw)=>{
@@ -1015,7 +1018,9 @@ app.post('/addrt',async (req,res)=>{
         res.redirect('/');
     }
 });
-
+app.get('/pembayaranrt',async (req,res)=>{
+    res.render('pembayaranrt');
+});
 
 //KepDinas
 
