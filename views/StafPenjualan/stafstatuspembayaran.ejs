@@ -14,17 +14,25 @@
         <img src="/assets/user.png" alt="">
     </header>
     <div class="sidenav">
-        <a href="stafstatuspembayaran1">Status Pesanan Warga P1</a>
-        <a href="stafstatuspembayaran2">Status Pesanan Warga P2</a>
-        <a href="stafstatuspembayaran3">Status Pesanan Warga P3</a>
-        <a href="stafstatuspembayaran4">Status Pesanan Warga P4</a>
+        <a href="stafperiodepesanan">Perioda Pemesan</a>
+        <a href="stafstatuspembayaran">Status Pembayaran RW</a>
     </div>
     <div class="main">
-        <p>Pemesanan Periode Ke: 2 </p>
+        <br>
+        <form action="/action_page.php" method="get">
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
         <table>
             <tr>
-                <th>Id_Warga</th>
-                <th>Nama Warga</th>
+                <th>Id_RW</th>
+                <th>Nama Ketua RW</th>
                 <th>Alamat</th>
                 <th>Jumlah Pesanan</th>
                 <th>Status Pesanan</th>
@@ -66,9 +74,6 @@
             </tr>
             
         </table>
-        <a href="stafperiodepesanan">
-            <input type="submit" value="Pilih Kembali Periode" name='check'>
-            </a>
         <a href="pembayaran">
             <input type="submit" value="Selesai" name='check'>
         </a>

@@ -725,17 +725,19 @@ app.get('/homestaf',async (req,res)=>{
 app.get('/stafperiodepesanan',async (req,res)=>{
     res.render('stafperiodepesanan');
 });
-app.get('/stafstatuspembayaran1',async (req,res)=>{
-    res.render('stafstatuspembayaran1');
-});
-app.get('/stafstatuspembayaran2',async (req,res)=>{
-    res.render('stafstatuspembayaran2');
-});
-app.get('/stafstatuspembayaran3',async (req,res)=>{
-    res.render('stafstatuspembayaran3');
-});
-app.get('/stafstatuspembayaran4',async (req,res)=>{
-    res.render('stafstatuspembayaran4');
+app.get('/stafstatuspembayaran',async (req,res)=>{
+    if(req.user && req.user[0].role_u =='staf'){
+        const conn = await dbConnect();
+        const perioda = await getperiode(conn);
+        const minyak = await getminyak(conn);
+        conn.release();
+        res.render('stafstatuspembayaran',{
+            minyak:minyak,
+            perioda:perioda
+        });
+    }else{
+        res.redirect('/')
+    }
 });
 
 const getminyak = ((conn)=>{
@@ -903,7 +905,18 @@ app.post('/akunwarga',async (req,res)=>{
     }
 });
 app.get('/pesananwarga',async (req,res)=>{
-    res.render('pesananwarga');
+    if(req.user && req.user[0].role_u =='rt'){
+        const conn = await dbConnect();
+        const perioda = await getperiode(conn);
+        const minyak = await getminyak(conn);
+        conn.release();
+        res.render('pesananwarga',{
+            minyak:minyak,
+            perioda:perioda
+        });
+    }else{
+        res.redirect('/')
+    }
 });
 
 //RW
