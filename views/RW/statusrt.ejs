@@ -20,6 +20,17 @@
     </div>
     <div class="main">
         <br>
+        <form action="/action_page.php" method="get">
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
+        <br>
         <table>
             <tr>
                 <th>No</th>

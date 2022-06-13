@@ -29,51 +29,28 @@
             </select>
             </form>
             <br>
-        <table>
-            <tr>
-                <th>Id_RW</th>
-                <th>Nama Ketua RW</th>
-                <th>Alamat</th>
-                <th>Jumlah Pesanan</th>
-                <th>Status Pesanan</th>
-            </tr>
-            <tr>
-                <td>001</td>
-                <td> <a href="">Doni</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">7</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td><a href="">Joko</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">3</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td><a href="">Budi</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">1</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>004</td>
-                <td><a href="">Dodo</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">2</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>005</td>
-                <td><a href="">Rangga</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">7</a></td>
-                <td> <a>  <input type="checkbox"></a></td>
-            </tr>
-            
-        </table>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>RW</th>
+                    <th>Nama Ketua</th>
+                    <th>Alamat</th>
+                    <th>Kelurahan</th>
+                    <th colspan="2">Akses</th>
+                </tr>
+                <% var i = 1; %> 
+                <% for (const rw of rw_data) { %>
+                    <tr>
+                        <td><%= i %> </td>
+                        <td><%= rw.no_rw %></td>
+                        <td><%= rw.nama_ketua_rw %></td>
+                        <td><%= rw.alamat %></td>
+                        <td><%= rw.nama_kel %></td>
+                    </tr>
+                    <% i +=1; %> 
+                <%} %> 
+                
+            </table>
         <a href="pembayaran">
             <input type="submit" value="Selesai" name='check'>
         </a>

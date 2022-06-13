@@ -776,7 +776,18 @@ const updatepass = (conn,id,newpass)=>{
         })
     })
 }
-
+app.get('/stafstatuspembayaran',async (req,res)=>{
+    if(req.user && req.user[0].role_u ==='staf'){
+        const conn = await dbConnect();
+        const rw_data = await getrw(conn);
+        conn.release();
+        res.render('stafstatuspembayaran',{
+            rw_data:rw_data
+        });
+    }else{
+        res.redirect('/');
+    }
+});
 
 //Warga
 app.get('/homewarga',async (req,res)=>{
@@ -978,7 +989,18 @@ app.get('/datart',async (req,res)=>{
     }  
 });
 app.get('/statusrt',async (req,res)=>{
-    res.render('statusrt');
+    if(req.user && req.user[0].role_u =='rw'){
+        const conn = await dbConnect();
+        const perioda = await getperiode(conn);
+        const minyak = await getminyak(conn);
+        conn.release();
+        res.render('statusrt',{
+            minyak:minyak,
+            perioda:perioda
+        });
+    }else{
+        res.redirect('/')
+    }
 });
 app.get('/addrt',async (req,res)=>{
     if(req.user){
