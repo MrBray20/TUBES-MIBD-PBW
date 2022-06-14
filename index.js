@@ -778,7 +778,10 @@ const updatepass = (conn,id,newpass)=>{
         })
     })
 }
+app.get('/pembayaranstaf',async (req,res)=>{
+    res.render('pembayaranstaf');
 
+});
 //Warga
 app.get('/homewarga',async (req,res)=>{
     res.render('homewarga');
@@ -862,7 +865,9 @@ const addwarga = (conn,nama_warga,id_rt,id_u) =>{
         })
     })
 }
-
+app.get('/pembayaranwg',async (req,res)=>{
+    res.render('pembayaranwg');
+});
 
 //RT
 app.get('/homert',async (req,res)=>{
