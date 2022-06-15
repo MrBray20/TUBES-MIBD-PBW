@@ -10,7 +10,7 @@
 
 <body>
     <div class="center">
-        <h2>Ganti Password</h2>
+        <h2>Beli Minyak</h2>
         <form action="formbeli" method="post">
             <label for="periods1" name="periode" id="">Pilih periode</label>
             <select id="periods1" name="periodevalue">
@@ -19,7 +19,7 @@
                     <option value="<%=per.id_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
                 <%}%>
             </select>
-            <br>
+            <br><br>
             <label for="minyak" name="periode" id="">Pilih Merek Minyak</label><br>
             <select id="minyak" name="minyakgor">
                 <option value="null"> Silahkan pilih ...</option>
@@ -27,13 +27,14 @@
                     <option value="<%=minyakgor.id_migor %>"><%= minyakgor.nama_minyak %> Rp.<%= minyakgor.harga %></option>
                 <%}%>
             </select>
-            <br>
+            <br><br>
             <label for="liter">Pilih berapa liter</label><br>
             <input id="liter" type="number" class="inputminyak" name="quantity" min="0" max="5" value="0">
+            <br><br>
             <a class="ref" href="pembayaran">
                 <input type="submit" value="Beli">
             </a>
-            <a href="/homewarga"><input type="button" value="Batal"></a>
+            <a href="/homewarga"><input type="button" value="Batal"></a><br><br>
         </form>
     </div>
 </body>
