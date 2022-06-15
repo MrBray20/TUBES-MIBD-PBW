@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylewarga.css">
+    <script src="/script/hitung.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <p>Warga</p>
+        <p><%= namasaya %> </p>
+        <a href="logout"><p>Logout</p></a>
+        <img src="/assets/user.png" alt="">
+    </header>
+    <div class="sidenav">
+        <a href="homewarga">Home</a>
+        <a href="changepass">Change Password</a>
+        <a href="formbeli">Beli Minyak</a>
+    </div>
+    <div class="main">
+        <p>Pesanan Saya </p>
+        <table>
+            <tr>
+                <th>No</th>
+                <th>Perioda</th>
+                <th>Nama Minyak</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+            </tr>
+            <% let i = 1 %> 
+            <% for (const pesan of pesanansaya) { %>
+                <tr name="data">
+                    <td value="1"><%= i %> </td>
+                    <td><%= pesan.nama_perioda %></td>
+                    <td><%= pesan.nama_migor %></td>
+                    <td><%= pesan.jumlah %></td>
+                    <td><%= pesan.harga %></td>
+                    <% i +=1; %> 
+                </tr>
+            <%} %> 
+        </table>
+    </div>
+</body>
+</html>

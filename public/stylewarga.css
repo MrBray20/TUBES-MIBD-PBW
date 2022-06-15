@@ -278,3 +278,14 @@ a.a6{
     background-image: -webkit-linear-gradient(left, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
     background-image: linear-gradient(to right, #00c5ff 0%, #00c5ff 47%, #0383a9 50%, #0383a9 100%);
   }
+  input[type="text"]:disabled {
+    color:black;
+    background: white;
+    border-color:white;
+    border-style:none;
+    font-size: 18px;
+    width: 100px;
+  }
+  .disable{
+    display: none;
+  }

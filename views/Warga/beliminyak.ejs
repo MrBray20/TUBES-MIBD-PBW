@@ -21,46 +21,74 @@
     </div>
     <div class="main">
         <p>Beli Minyak Goreng </p>
-        <form action="/action_page.php" method="get">
+        <form action="beliminyak" method="post">
             <label for="periods" name="periode" id="">Pilih periode</label>
-            <select id="periods">
+            <select id="periods" name="periodevalue">
                 <option value="null "> Silahkan pilih ...</option>
                 <%for (const per of perioda) {%>
-                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                    <option value="<%=per.id_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
                 <%}%>
             </select>
-            </form>
-            <br>
-            <br>
-        <table id="harga">
-            <tr>
-                <th>No</th>
-                <th>Nama Produk</th>
-                <th>Harga Perliter</th>
-                <th>Jumlah</th>
-                <th>Total Harga</th>
-            </tr>
-            <% var i = 1; %> 
-            <% for (const minyakgor of minyak) { %>
+            <br><br>
+            <table id="harga" name="tabel">
                 <tr>
-                    <td><%= i %> </td>
-                    <td><%= minyakgor.nama_minyak %></td>
-                    <td><label class="hargaminyak" name="harga" value="<%=minyakgor.harga%>" ><%= minyakgor.harga %></label> </td>
-                    <td><input type="number" class="inputminyak" name="quantity" min="0" max="5" value="0"></td>
-                    <td class="total"  style="text-align:center ;"></td>
-                    <% i +=1; %> 
+                    <th>No</th>
+                    <th>Nama Produk</th>
+                    <th>Harga Perliter</th>
+                    <th>Jumlah</th>
+                    <th>Total Harga</th>
                 </tr>
-            <%} %> 
-            <tr>
-                <td colspan="4" style="text-align: center;">Total Harga</td>
-                <td id="hasiljumlah" style="text-align:center ;" name="jumlahharga"></td>
-            </tr>
-        </table>
-            <input style="margin-left:250px;margin-top: 5px;" type="button" value="Hitung" name='check'>
+                <% var i = 1; %> 
+                <% for (const minyakgor of minyak) { %>
+                    <tr name="data">
+                        <td value="1"><%= i %> </td>
+                        <td name="<%= minyakgor.nama_minyak %>"><%= minyakgor.nama_minyak %></td>
+                        <td><input type="text" class="hargaminyak" name="banyak" value="<%=minyakgor.harga%>" ></input> </td>
+                        <td><input type="number" class="inputminyak" name="quantity" min="0" max="5" value="0"></td>
+                        <td class="total"  style="text-align:center ;"></td>
+                        <% i +=1; %> 
+                    </tr>
+                <%} %> 
+                <tr>
+                    <td colspan="3" style="text-align: center;">Total Harga</td>
+                    <td style="text-align:center"> <input type="button" value="Hitung"></td>
+                    <td id="hasiljumlah" style="text-align:center ;" name="jumlahharga"></td>
+                </tr>
+            </table>
+                
+                <br>
+            <a class="ref" href="pembayaran">
+                <input type="submit" value="Selesai">
+            </a>
+            
+        </form>
             <br>
-        <a class="ref" href="pembayaran">
-            <input type="submit" value="Selesai" name='check'>
-        </a>
+            <br>
+        
+            <form action="" method="post">
+                <label for="periods1" name="periode" id="">Pilih periode</label>
+                <select id="periods1" name="periodevalue">
+                    <option value="null "> Silahkan pilih ...</option>
+                    <%for (const per of perioda) {%>
+                        <option value="<%=per.id_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                    <%}%>
+                </select>
+                <br>
+                <br>
+                <label for="minyak" name="periode" id="">Pilih Merek Minyak</label>
+                <select id="minyak" name="minyakgor">
+                    <option value="null"> Silahkan pilih ...</option>
+                    <%for (const minyakgor of minyak) {%>
+                        <option value="<%=minyakgor.id_migor %>"><%= minyakgor.nama_minyak %> Rp.<%= minyakgor.harga %></option>
+                    <%}%>
+                </select>
+                <br>
+                <label for="liter">Pilih berapa liter</label>
+                <input id="liter" type="number" class="inputminyak" name="quantity" min="0" max="5" value="0">
+                <a class="ref" href="pembayaran">
+                    <input type="submit" value="Selesai">
+                </a>
+            </form>
     </div>
 </body>
 </html>

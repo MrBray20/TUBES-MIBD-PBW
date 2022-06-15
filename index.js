@@ -10,6 +10,7 @@ import session from 'express-session';
 import cookiePerser from 'cookie-parser'
 import { rejects } from 'assert';
 import { read } from 'fs';
+import { render } from 'ejs';
 
 const port = 8080;
 const app = express();
@@ -31,8 +32,8 @@ const pool = mysql.createPool({
     database:'tubesmibdpbw',
     host:'localhost',
     dateStrings: true,
-    connectionLimit:10,
-    // port: 8111
+    connectionLimit:10
+    // port: 3307
 });
 
 const generateAuthToken = () =>{
@@ -103,7 +104,7 @@ const getproduk= (conn)=>{
 
 const getuser = (conn,username,pass) =>{
     return new Promise((resolve, rejects) =>{
-        conn.query(`SELECT id_U ,username, pass, role_u FROM users WHERE username LIKE '${username}' AND pass LIKE '${pass}'`,(err,result)=>{
+        conn.query(`SELECT id_U ,username, pass,nama, role_u FROM users WHERE username LIKE '${username}' AND pass LIKE '${pass}'`,(err,result)=>{
             if(err){
                 rejects(err);
             }
@@ -731,7 +732,7 @@ app.get('/stafstatuspembayaran',async (req,res)=>{
 
 const getminyak = ((conn)=>{
     return new Promise((resolve,rejects)=>{
-        conn.query('SELECT * FROM kemasanmigor',(err,result)=>{
+        conn.query(`SELECT * FROM kemasanmigor`,(err,result)=>{
             if(err){
                 rejects(err);
             }else{
@@ -748,14 +749,14 @@ const getperiode = ((conn)=>{
             if (err) {
                 rejects(err);
             } else {
-                resolve(result)
+                resolve(result);
             }
         })
     })
 })
 
 const updatepass = (conn,id,newpass)=>{
-    return new Promise((resolve,rejects)=>{
+    return new Promise ((resolve,rejects)=>{
         conn.query(`UPDATE users SET pass = '${newpass}' WHERE id_U = ${id}`,(err,result)=>{
             if (err) {
                 rejects(err);
@@ -766,13 +767,79 @@ const updatepass = (conn,id,newpass)=>{
     })
 }
 
+const beliminyak =(conn,id_period,nama_migor,jumlah,harga,id_warga)=>{
+    return new Promise ((resolve,rejects)=>{
+        conn.query(`INSERT INTO pemesanan (id_period,nama_migor,jumlah,harga,id_warga) Values (${id_period},'${nama_migor}','${jumlah}','${harga}','${id_warga}')`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getnamaminyak = (conn,id_minyak) =>{
+    return new Promise ((resolve,rejects)=>{
+        conn.query(`SELECT nama_minyak,harga FROM kemasanmigor WHERE id_migor = ${id_minyak}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getidwarga = (conn,id_u) =>{
+    return new Promise((resolve,rejects)=>{
+        conn.query(`SELECT id_warga FROM warga WHERE id_u = ${id_u}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+const getviewpesanan = (conn,id_u) =>{
+    return new Promise((resolve,rejects)=>{
+        conn.query(`SELECT * FROM viewpesananwarga WHERE id_u = ${id_u}`,(err,result)=>{
+            if (err) {
+                rejects(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
 
 //Warga
 app.get('/homewarga',async (req,res)=>{
-    res.render('homewarga');
+    if(req.user && req.user[0].role_u ==='warga'){
+        const namasaya = req.user[0].nama;
+        res.render('homewarga',{
+            namasaya
+        });
+    }else{
+        res.redirect('/');
+    }
 });
-app.post('/warga',async (req,res)=>{
-    res.redirect('homewarga');
+app.get('/pesanansaya',async (req,res)=>{
+    
+    if(req.user && req.user[0].role_u ==='warga'){
+        const namasaya = req.user[0].nama;
+        const conn = await dbConnect();
+        const pesanansaya = await getviewpesanan(conn,req.user[0].id_U)
+        console.log(req.user)
+        res.render('pesanansaya',{
+        pesanansaya,
+        namasaya
+        });
+    }else{
+        res.redirect('/');
+    }
 });
 
 app.get('/warga',async (req,res)=>{
@@ -814,6 +881,42 @@ app.get('/beliminyak',async (req,res)=>{
     }
 });
 
+app.get('/formbeli',async(req,res)=>{
+    if(req.user && req.user[0].role_u ==='warga'){
+        const conn = await dbConnect();
+        const perioda = await getperiode(conn);
+        const minyak = await getminyak(conn);
+        res.render('formbeli',{
+        minyak:minyak,
+        perioda:perioda
+        });
+    }else{
+        res.redirect('/');
+    }
+});
+    
+app.post('/formbeli',async(req,res)=>{
+    if(req.user && req.user[0].role_u ==='warga'){
+        const{periodevalue,minyakgor,quantity} = req.body;
+        const conn = await dbConnect();
+        const nama = await getnamaminyak(conn,minyakgor);
+        let harga = quantity * nama[0].harga
+        const idwarga = await getidwarga(conn,req.user[0].id_U)
+        const beli =await beliminyak(conn,periodevalue ,nama[0].nama_minyak,quantity,harga,idwarga[0].id_warga)
+        conn.release();
+        res.redirect('homewarga');
+    }else{
+        res.redirect('/');
+    }
+})
+
+app.post('/beliminyak',async(req,res)=>{
+    if (req.user && req.user[0].role_u==="warga") {
+        console.log(req.body);
+    } else {
+        res.redirect('/')
+    }
+})
 
 const getwarga = (conn,idrt) =>{
     return new Promise ((resolve,rejects)=>{
@@ -855,7 +958,10 @@ const addwarga = (conn,nama_warga,id_rt,id_u) =>{
 //RT
 app.get('/homert',async (req,res)=>{
     if (req.user && req.user[0].role_u === 'rt') {
-        res.render('homert');
+        const namasaya = req.user[0].nama;
+        res.render('homert',{
+            namasaya
+        });
     } else {
         res.redirect('/')
     }
@@ -866,12 +972,14 @@ app.get('/akunwarga',async (req,res)=>{
 app.get('/datawarga',async (req,res)=>{
     
     if (req.user&& req.user[0].role_u==='rt') {
+        const namasaya = req.user[0].nama;
         const conn = await dbConnect();
         const idrt = await getidrt(conn,req.user[0].id_U);
         const datawarga = await getwarga(conn,idrt[0].id_rt);
         conn.release();
         res.render('datawarga',{
-            datawarga:datawarga
+            datawarga:datawarga,
+            namasaya
         });
     } else {
         
@@ -894,8 +1002,16 @@ app.post('/akunwarga',async (req,res)=>{
     }
 });
 app.get('/pesananwarga',async (req,res)=>{
-    res.render('pesananwarga');
+    if(req.user && req.user[0].role_u ==='rt'){
+        const namasaya = req.user[0].nama;
+        res.render('pesananwarga',{
+            namasaya
+        });
+    }else{
+        res.redirect('/');
+    }
 });
+
 
 //RW
 
@@ -936,7 +1052,10 @@ const getrt = (conn,idrw) =>{
 };
 app.get('/homerw',async (req,res)=>{
     if(req.user && req.user[0].role_u==='rw'){
-        res.render('homerw')
+        const namasaya = req.user[0].nama;
+        res.render('homerw',{
+            namasaya
+        })
     }else{
         res.redirect('/');
     }
@@ -944,29 +1063,38 @@ app.get('/homerw',async (req,res)=>{
 });
 app.get('/datart',async (req,res)=>{
     if (req.user && req.user[0].role_u === 'rw') {
+        const namasaya = req.user[0].nama;
         const conn =await dbConnect();
         const idrw = await getidrw(conn,req.user[0].id_U)
         const datart = await getrt(conn,idrw[0].id_rw);
         conn.release();
         res.render('datart',{
-            datart:datart
+            datart:datart,
+            namasaya
         });
     } else {
         res.redirect('/');
     }  
 });
 app.get('/statusrt',async (req,res)=>{
-    res.render('statusrt');
+    const namasaya = req.user[0].nama;
+    if(req.user && req.user[0].role_u ==='rw'){
+        res.render('statusrt',{
+            namasaya
+        });
+    }else{
+        res.redirect('/');
+    }
 });
 app.get('/addrt',async (req,res)=>{
-    if(req.user){
+    if(req.user && req.user[0].role_u ==='rw'){
         res.render('addrt');
     }else{
         res.redirect('/');
     }
 });
 app.post('/addrt',async (req,res)=>{
-    if(req.user){
+    if(req.user && req.user[0].role_u ==='rw'){
         const {RT,namaKetua,alamat,username,password} = req.body
         const role = 'rt';
         const conn = await dbConnect();
@@ -986,7 +1114,11 @@ app.post('/addrt',async (req,res)=>{
 //KepDinas
 
 app.get('/homekepdin',async (req,res)=>{
-    res.render('homekepdin');
+    const namasaya = req.user[0].nama;
+    res.render('homekepdin',{
+        namasaya
+    });
+
 });
 app.get('/rekapitulasirw',async (req,res)=>{
     res.render('rekapitulasirw');
