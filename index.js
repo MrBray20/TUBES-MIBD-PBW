@@ -694,7 +694,6 @@ app.post('/addperioda',async (req,res)=>{
         res.redirect('/');
     }
 });
-
 app.get('/perioda/hapus/(:id_perioda)',async (req,res)=>{
     if(req.user && req.user[0].role_u ==='admin'){
         const {id_perioda}=req.params
@@ -706,6 +705,7 @@ app.get('/perioda/hapus/(:id_perioda)',async (req,res)=>{
         res.redirect('/');
     }
 });
+
 
 
 
@@ -727,7 +727,20 @@ app.get('/stafperiodepesanan',async (req,res)=>{
     res.render('stafperiodepesanan');
 });
 app.get('/stafstatuspembayaran',async (req,res)=>{
-    res.render('stafstatuspembayaran');
+    if(req.user && req.user[0].role_u =='staf'){
+        const conn = await dbConnect();
+        const perioda = await getperiode(conn);
+        const minyak = await getminyak(conn);
+        const rw_data = await getrw(conn);
+        conn.release();
+        res.render('stafstatuspembayaran',{
+            minyak:minyak,
+            perioda:perioda,
+            rw_data:rw_data
+        });
+    }else{
+        res.redirect('/')
+    }
 });
 
 const getminyak = ((conn)=>{
@@ -766,6 +779,9 @@ const updatepass = (conn,id,newpass)=>{
         })
     })
 }
+app.get('/pembayaranstaf',async (req,res)=>{
+    res.render('pembayaranstaf');
+})
 
 const beliminyak =(conn,id_period,nama_migor,jumlah,harga,id_warga)=>{
     return new Promise ((resolve,rejects)=>{
@@ -953,7 +969,9 @@ const addwarga = (conn,nama_warga,id_rt,id_u) =>{
         })
     })
 }
-
+app.get('/pembayaranwg',async (req,res)=>{
+    res.render('pembayaranwg');
+});
 
 //RT
 app.get('/homert',async (req,res)=>{
@@ -1109,7 +1127,9 @@ app.post('/addrt',async (req,res)=>{
         res.redirect('/');
     }
 });
-
+app.get('/pembayaranrt',async (req,res)=>{
+    res.render('pembayaranrt');
+});
 
 //KepDinas
 
@@ -1118,7 +1138,6 @@ app.get('/homekepdin',async (req,res)=>{
     res.render('homekepdin',{
         namasaya
     });
-
 });
 app.get('/rekapitulasirw',async (req,res)=>{
     res.render('rekapitulasirw');

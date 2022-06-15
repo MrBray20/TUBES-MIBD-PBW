@@ -15,56 +15,44 @@
     </header>
     <div class="sidenav">
         <a href="stafperiodepesanan">Perioda Pemesan</a>
-        <a href="stafstatuspembayaran">Status Pesanan Warga</a>
+        <a href="stafstatuspembayaran">Status Pembayaran RW</a>
     </div>
     <div class="main">
-        <p>Pemesanan Periode Ke: </p>
-        <table>
-            <tr>
-                <th>Id_Warga</th>
-                <th>Nama Warga</th>
-                <th>Alamat</th>
-                <th>Jumlah Pesanan</th>
-                <th>Status Pesanan</th>
-            </tr>
-            <tr>
-                <td>001</td>
-                <td> <a href="">Doni</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">7</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td><a href="">Joko</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">3</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>003</td>
-                <td><a href="">Budi</a></td>
-                <td> <a href>Bandung Barat</a></td>
-                <td> <a href="">1</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>004</td>
-                <td><a href="">Dodo</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">2</a></td>
-                <td> <a><input type="checkbox"></a></td>
-            </tr>
-            <tr>
-                <td>005</td>
-                <td><a href="">Rangga</a></td>
-                <td> <a href="">Bandung</a></td>
-                <td> <a href="">7</a></td>
-                <td> <a>  <input type="checkbox"></a></td>
-            </tr>
-            
-        </table>
-        <a href="pembayaran">
+        <br>
+        <form action="/action_page.php" method="get">
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>RW</th>
+                    <th>Nama Ketua</th>
+                    <th>Alamat</th>
+                    <th>Kelurahan</th>
+                    <th colspan="2">Status Pembayaran</th>
+                </tr>
+                <% var i = 1; %> 
+                <% for (const rw of rw_data) { %>
+                    <tr>
+                        <td><%= i %> </td>
+                        <td><%= rw.no_rw %></td>
+                        <td><%= rw.nama_ketua_rw %></td>
+                        <td><%= rw.alamat %></td>
+                        <td><%= rw.nama_kel %></td>
+                        <td> <a><input type="checkbox"></a></td>
+                    </tr>
+                    <% i +=1; %> 
+                <%} %> 
+                
+            </table>
+        <a href="pembayaranstaf">
             <input type="submit" value="Selesai" name='check'>
         </a>
     </div>

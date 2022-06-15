@@ -21,6 +21,17 @@
     </div>
     <div class="main">
         <br>
+        <form action="/action_page.php" method="get">
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
+        <br>
         <table>
             <tr>
                 <th>No</th>
@@ -28,7 +39,7 @@
                 <th>Nama Ketua RT</th>
                 <th>Alamat</th>
                 <th>Kecamatan</th>
-                <th>Status Pemesanan RT</th>
+                <th>Status Pembayaran RT</th>
             </tr>
             <tr>
                 <td>1</td>
@@ -70,11 +81,11 @@
                 <td> <a href="">bsojong gede</a> </td>
                 <td> <a><input type="checkbox"></a></td>
             </tr>
-            
+
         </table>
 
-        <a href="addrt">
-            <input type="submit" value="Tambah" name='addNewRole'>
+        <a href="pembayaranrt">
+            <input type="submit" value="Selesai" name='addNewRole'>
         </a>
     </div>
 </body>

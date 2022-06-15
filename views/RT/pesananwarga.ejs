@@ -21,14 +21,24 @@
         <a href="pesananwarga">Pesanan Warga</a>
     </div>
     <div class="main">
-        <p>Pemesanan Periode Ke: </p>
+        <br>
+        <form action="/action_page.php" method="get">
+            <label for="periods" name="periode" id="">Pilih periode</label>
+            <select id="periods">
+                <option value="null "> Silahkan pilih ...</option>
+                <%for (const per of perioda) {%>
+                    <option name="<%=per.id_perioda%>" value="<%=per.nama_perioda %>"> <%=per.nama_perioda%> (<%=per.tanggal_mulai%> s/d <%=per.tanggal_berakhir%>) </option>
+                <%}%>
+            </select>
+            </form>
+            <br>
         <table>
             <tr>
                 <th>Id_Warga</th>
                 <th>Nama Warga</th>
                 <th>Alamat</th>
                 <th>Jumlah Pesanan</th>
-                <th>Status Pembayaran</th>
+                <th>Status Pemesanan</th>
             </tr>
             <tr>
                 <td>001</td>
