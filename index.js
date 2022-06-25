@@ -32,8 +32,8 @@ const pool = mysql.createPool({
     database:'tubesmibdpbw',
     host:'localhost',
     dateStrings: true,
-    connectionLimit:10,
-    port: 8112
+    connectionLimit:10
+    //port: 8112
 });
 
 const generateAuthToken = () =>{

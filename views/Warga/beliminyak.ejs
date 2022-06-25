@@ -6,13 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylewarga.css">
     <script src="/script/hitung.js" defer></script>
+    <script src="/script/profile.js" defer></script>
     <title>Document</title>
 </head>
 <body>
     <header class="header">
         <p>Warga</p>
         <a href="logout"><p>Logout</p></a>
-        <img src="/assets/user.png" alt="">
+        <div class="profile-pic">
+            <label class="labels" for="file">
+              <span class=""></span>
+              <span>Ganti profile</span>
+            </label>
+            <input id="file" type="file" onchange="loadFile(event)"/>
+            <img src="/assets/user.png" id="output" width="200" />
+          </div>
     </header>
     <div class="sidenav">
         <a href="homewarga">Home Warga</a>

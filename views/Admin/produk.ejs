@@ -5,13 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleadmin.css">
+    <script src="/script/profile.js" defer></script>
     <title>Produk</title>
 </head>
 <body>
     <header class="header">
         <p>Admin</p>
         <a href="logout"><p>Logout</p></a>
-        <img src="/assets/user.png" alt="">
+        <div class="profile-pic">
+            <label class="labels" for="file">
+              <span class=""></span>
+              <span>Ganti profile</span>
+            </label>
+            <input id="file" type="file" onchange="loadFile(event)"/>
+            <img src="/assets/user.png" id="output" width="200" />
+          </div>
     </header>
     <div class="sidenav">
         <a href="homeadmin">Home</a>
