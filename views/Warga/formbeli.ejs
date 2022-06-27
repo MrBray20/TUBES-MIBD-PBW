@@ -32,7 +32,13 @@
             <input id="liter" type="number" class="inputminyak" name="quantity" min="0" max="5" value="0">
             <br><br>
             <a class="ref" href="pembayaran">
-                <input type="submit" value="Beli">
+                <input type="submit" value="Beli" onclick="alertpesanan();" />
+
+<script>
+function alertpesanan() {
+  confirm("Pembelian Selesai, Silahkan cek menu Pesanan Saya!");
+}
+</script>
             </a>
             <a href="/homewarga"><input type="button" value="Batal"></a><br><br>
         </form>
