@@ -12,12 +12,12 @@
         <h1>Login</h1>
         <form method="post" action="/home">
             <div class="text">
-                <input type="text" required name="username">
+                <input type="text" name="username" required oninvalid="this.setCustomValidity('Masukan Username anda')" oninput="setCustomValidity('')"><br>
                 <span></span>
                 <label>Username</label>
             </div>
             <div class="text">
-                <input type="password" required name="password">
+                <input type="text" name="password" required oninvalid="this.setCustomValidity('Masukan Password anda')" oninput="setCustomValidity('')"><br>
                 <span></span>
                 <label>Password</label>
             </div>
