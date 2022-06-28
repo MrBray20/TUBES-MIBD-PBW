@@ -1,0 +1,9 @@
+var header = document.getElementById("page");
+var paging = header.getElementsByClassName("pg");
+for (var i = 0; i < paging.length; i++) {
+  paging[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  current[0].className = current[0].className.replace(" active", "");
+  this.className += " active";
+  });
+}

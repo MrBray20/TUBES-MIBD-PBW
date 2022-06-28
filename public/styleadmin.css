@@ -322,4 +322,21 @@ a.a6{
   body a:hover {
     text-decoration: none;
   }
-  
+  .pg {
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 25px;
+  }
+
+  .active, .pg:hover {
+    background-color: rgb(228, 160, 35);
+    color: white;
+  }
+
+  .header #page{
+    margin: 0 auto;
+  }
